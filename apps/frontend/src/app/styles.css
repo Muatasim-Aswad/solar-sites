@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #153747;
+  --color-teal: #006b68;
+  --color-teal-hover: #005654;
+  --color-teal-strong: #004d4b;
+  --color-solar: #f2bf42;
+  --color-solar-shade: #db9b19;
+  --color-canvas: #f2f6f8;
+  --color-muted: #526a76;
+  --color-line: #d9e3e8;
+  --color-line-soft: #e5ecef;
+  --color-line-strong: #c6d5dd;
+  --color-control: #a7b8c1;
+  --color-input: #91a7b1;
+  --color-surface-hover: #e8f0f3;
+  --color-surface-subtle: #f7fafb;
+  --color-notice: #e8f1f5;
+  --color-danger: #a62d34;
+  --color-danger-strong: #83252c;
+  --color-danger-soft: #fff1f1;
+  --color-track: #e7edf0;
+  --color-track-fill: #748d99;
+  --font-body: "Segoe UI", system-ui, sans-serif;
+  --font-heading: "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-brand: "Trebuchet MS", sans-serif;
+  --breakpoint-compact: 37.5rem;
+  --breakpoint-wide: 56.25rem;
+}
+
+@layer base {
+  :root {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background: var(--color-canvas);
+    font-synthesis: none;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  a {
+    color: var(--color-teal);
+    text-underline-offset: 0.2em;
+  }
+  a:hover {
+    color: var(--color-teal-strong);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-teal);
+    outline-offset: 4px;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    line-height: 1.2;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    letter-spacing: -0.035em;
+    margin: 0 0 0.5rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+  }
+  p {
+    margin: 0 0 1rem;
+    max-width: 75ch;
+  }
+  fieldset {
+    min-width: 0;
+  }
+  dt {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+  }
+  dd {
+    margin: 0.15rem 0 0;
+    font-weight: 600;
+  }
+  summary {
+    cursor: pointer;
+    color: var(--color-ink);
+    padding: 0.3rem 0;
+    font-weight: 600;
+  }
+  details p {
+    margin-top: 0.7rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
