@@ -1,0 +1,27 @@
+name: Verify
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MISE_LOCKED_SCOPES: project
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install mise and locked toolchains
+        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4
+        with:
+          version: 2026.10.10
+          install_args: --locked
+      - name: Install application dependencies
+        run: MISE_TRUSTED_CONFIG_PATHS="$PWD/mise.toml" mise run setup
+      - name: Install browser system dependencies
+        run: pnpm exec playwright install-deps chromium
+      - name: Verify application
+        run: MISE_TRUSTED_CONFIG_PATHS="$PWD/mise.toml" mise exec --locked -- bash scripts/verify.sh
+      - name: Verify container
+        run: bash scripts/container/smoke.sh
