@@ -1,0 +1,40 @@
+[tools]
+python = "3.14.7"
+node = "26.12.0"
+pnpm = "12.11.2"
+uv = "0.13.1"
+
+[tool_config]
+locked = true
+
+[tasks.setup]
+description = "Install locked dependencies and test browser"
+run = ["uv sync --project apps/backend --locked", "pnpm install --frozen-lockfile", "pnpm --dir apps/frontend install --frozen-lockfile", "pnpm exec playwright install chromium"]
+
+[tasks.verify]
+description = "Check, test and build both applications"
+run = "bash scripts/verify.sh"
+
+[tasks.check]
+description = "Check formatting, lint and shell syntax"
+run = "bash scripts/check.sh"
+
+[tasks.test]
+description = "Run backend, frontend unit and browser tests"
+run = ["uv run --no-sync --project apps/backend pytest -q apps/backend/tests", "pnpm --dir apps/frontend run test", "pnpm run test:e2e"]
+
+[tasks."container-smoke"]
+description = "Build and smoke-test the packaged application twice"
+run = "bash scripts/container/smoke.sh"
+
+[tasks."api:generate"]
+description = "Refresh generated OpenAPI and TypeScript contracts"
+run = ["uv run --locked --project apps/backend solar-sites-openapi --output apps/backend/openapi.json", "pnpm --dir apps/frontend run api:generate"]
+
+[tasks."dev:backend"]
+description = "Run the local API (configure frontend dev origins in .env)"
+run = "uv run --locked --project apps/backend uvicorn solar_sites.main:create_app --factory --env-file .env --host 127.0.0.1 --port 8000 --no-proxy-headers --limit-concurrency 64 --timeout-graceful-shutdown 70"
+
+[tasks."dev:frontend"]
+description = "Run the frontend development server"
+run = "pnpm --dir apps/frontend run dev"

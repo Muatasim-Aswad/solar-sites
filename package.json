@@ -1,0 +1,13 @@
+{
+  "name": "solar-sites-tooling",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "typescript": "~5.9.3"
+  }
+}
